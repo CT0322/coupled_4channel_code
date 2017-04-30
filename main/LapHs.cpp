@@ -1061,58 +1061,69 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                                 j_m = (j%2==0)?(j+1):(j-1);
                             for(int gi=0; gi<3; ++gi) {
                                 corr_DDstar_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi]);
+                                printf("TEST 1\n");
                                 corr_DDstar_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i][gi]), &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i_m][3]), SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j][gi], SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j_m][3]);
-
+                                printf("TEST 2\n");
                                 corr_DDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3]);
-                                corr_DDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i][gi]), &(SinkbarSink_dbarcp[i0*n_rndvec_u+i1][inp1][i_m][3]), SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j][3], SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j_m][gi]);    
-
+                                printf("TEST 3\n");
+                                corr_DDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i][gi]), &(SinkbarSink_dbarcp[i0*n_rndvec_u+i1][inp1][i_m][3]), SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j][3], SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j_m][gi]);
+                                printf("TEST 4\n");
                                 corr_JPsiPi_DDstar[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][3], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][gi]);
-                                corr_JPsiPi_DDstar[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_u+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][3]);        
-                                                                                    
+                                printf("TEST 5\n");
+                                corr_JPsiPi_DDstar[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_u+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][3]);
+                                printf("TEST 6\n");
                                 corr_EtacRho_DDstar[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][3], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][gi]);
-                                corr_EtacRho_DDstar[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_u+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][3]);                                                    
-                                
+                                printf("TEST 7\n");
+                                corr_EtacRho_DDstar[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_u+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][3]);
+                                printf("TEST 8\n");
                                 corr_DstarDstar_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0] -= ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][0]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][1]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi])
-                                                                                            -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][1]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][0]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi]));                
-    
+                                                                                            -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][1]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][0]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi]));
+                                printf("TEST 9\n");
                                 corr_DstarDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0] -= ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][0]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][1]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3])
                                                                                             -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][1]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][0]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3]));
-
+                                printf("TEST 10\n");
                                 corr_JPsiPi_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0] += ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][0]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][1]])
                                                                                             -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][1]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][0]]));
 
                                 corr_EtacRho_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0] += ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][0]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][1]])
                                                                                             -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][1]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][0]]));
-                                
+                                printf("TEST 11\n");
                                 for(int ti=0; ti<Lt; ++ti)
                                 {
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma55[i2*n_rndvec_u+i3][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
+                                    printf("TEST IN 1\n");
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) -= corr_dbarcp_gammai5[i0*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti);
+                                    printf("TEST IN 2\n");
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][2](ti) -= corr_dbarcp_gamma55[i0*n_rndvec_c+i1][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti);
+                                    printf("TEST IN 3\n");
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][3](ti) -= corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti);
-                                    
+                                    printf("TEST IN 4\n");
                                     corr_DstarDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) += (corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
                                                                                                     + corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
                                                                                                     - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
                                                                                                     - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
 
+                                    printf("TEST IN 5\n");
                                     corr_DDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) += ii*(corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti) 
                                                                                                 - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
-                                    corr_DDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) += ii*(corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti) 
+                                    printf("TEST IN 6\n");
+                                    corr_DDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) += ii*(corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)
                                                                                                 - corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti));
- 
+                                    printf("TEST IN 7\n");
                                     corr_DstarDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= ii*(corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti) 
-                                                                                                - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)); 
-                                    corr_DstarDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) -= ii*(corr_dbarcp_gammai5[i0*n_rndvec_c+i1][vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti) 
+                                                                                                - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
+                                    printf("TEST IN 8\n");
+                                    corr_DstarDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) -= ii*(corr_dbarcp_gammai5[i0*n_rndvec_c+i1][vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)
                                                                                                 - corr_dbarcp_gammai5[i0*n_rndvec_c+i1][vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti));
-
+                                    printf("TEST IN 9\n");
                                     corr_JPsiPi_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gammaii[i2*n_rndvec_c+i1][gi*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gamma55[i0*n_rndvec_u+i3][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
-
+                                    printf("TEST IN 10\n");
                                     corr_EtacRho_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gamma55[i2*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gammaii[i0*n_rndvec_u+i3][gi*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
-
+                                    printf("TEST IN 11\n");
                                     corr_JPsiPi_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gammai5[i2*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gamma5i[i0*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
-
+                                    printf("TEST IN 12\n");
                                     corr_EtacRho_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gamma5i[i2*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gammai5[i0*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
+                                    printf("TEST IN 13\n");
                                 }
                             }
                         }
