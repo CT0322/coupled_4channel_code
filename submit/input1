@@ -1,0 +1,29 @@
+# This is an example input file
+
+# lattice parameters:
+Lt = 64
+Lx = 32
+Ly = 32
+Lz = 32
+
+# configuration handling:
+start_config = 202
+end_config   = 202
+delta_config = 4
+
+# eigenvector handling:
+number_of_eigen_vec = 220
+path_eigenvectors = /hiskp2/eigensystems/A40.32_L32_T64_beta190_mul0040_musig150_mudel190_kappa1632700/hyp_062_062_3/nev_220
+
+#########        perambulator handling        #########
+######### two paritcles \bar{c}d  \bar{u}c ######## 
+path_perambulators_c = /hiskp2/perambulators/A40.32_second-run_sorted/charm_2250
+path_perambulators_u = /hiskp2/perambulators/A40.32_second-run_sorted/light
+
+
+path_output = /hiskp2/tingchen/DDscattering/data/A40.32/charm_225_4channels
+
+[quarks]
+quark = c:4:TB:32:EI:4:DI:4
+quark = u:7:TB:32:EI:4:DI:4
+

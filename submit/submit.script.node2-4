@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#PBS -N conf.=CONF=
+#PBS -l walltime=24:00:00,mem=35gb
+#PBS -l nodes=1:ppn=4:=NODE=
+#PBS -j oe
+run_dir="/hiskp2/tingchen/DDscattering/DDcode/D-D-scatering/submit"
+out="$run_dir/out=CONF="
+
+echo "job starts at" `date` > $out
+export OMP_NUM_THREADS=1
+cat $PBS_NODEFILE >> $out
+
+contrac_dir="/hiskp2/tingchen/DDscattering/DDcode/D-D-scatering/main"
+data_dir="/hiskp2/tingchen/DDscattering/data/A40.32/charm_225"
+
+if [ ! -d $data_dir/sum ]; then
+  mkdir $data_dir/sum
+fi
+
+  $run_dir/LapHs.sh =CONF= > $run_dir/contrac.=CONF=.in
+  $contrac_dir/LapHs -i $run_dir/contrac.=CONF=.in &> $run_dir/contrac.=CONF=.out
+
+cd $data_dir
+tar cvf =CONF=.tar ./*.conf=CONF=.dat
+rm *.conf=CONF=.dat
+
+echo "=CONF= job ends at" `date` >> $out
+
+
