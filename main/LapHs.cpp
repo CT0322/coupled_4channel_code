@@ -707,21 +707,28 @@ std::cout<<"end correlator memory allocate"<<std::endl;
 
     int gammaindex[4] = {12,13,14,5};
     int i_m, j_m;
-    int norm_2pt_1=0, norm_2pt_2=0, norm_4pt=0;
+    int norm_2pt_1=0, norm_2pt_u=0,  norm_2pt_c=0, norm_4pt=0;
     time = clock() - time;
     printf("\t\t pre setting done - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
     time = clock();
 
     for(int i0=0; i0<n_rndvec_u; ++i0)
-    for(int i1=0; i1<n_rndvec_c; ++i1)
-        norm_2pt_1++;
+        for(int i1=0; i1<n_rndvec_c; ++i1)
+         norm_2pt_1++;
 
     for(int i0=0; i0<n_rndvec_u; ++i0)
-    for(int i1=0; i1<n_rndvec_c; ++i1) {
-        if(i0==i1) continue;
-        norm_2pt_2++;
-    }
-        
+        for(int i1=0; i1<n_rndvec_u; ++i1) {
+            if(i0==i1) continue;
+            norm_2pt_u++;
+        }
+
+    for(int i0=0; i0<n_rndvec_u; ++i0)
+        for(int i1=0; i1<n_rndvec_; ++i1) {
+            if(i0==i1) continue;
+            norm_2pt_c++;
+        }
+
+
     for(int i0=0; i0<n_rndvec_u; ++i0)
     for(int i1=0; i1<n_rndvec_c; ++i1)
     for(int i2=0; i2<n_rndvec_c; ++i2)
@@ -881,39 +888,81 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                 }
 
     for(int i0=0; i0<n_rndvec_c; ++i0)
-        for(int i1=0; i1<n_rndvec_c; ++i1)
-            for(int inp1=0; inp1<number_of_mom; ++inp1)
-                for(int inp2=0; inp2<number_of_mom; ++inp2) {
-                    for(int i=0; i<np[inp1]; ++i)
-                        for(int j=0; j<np[inp2]; ++j) {
-                            corr_cmbarcp_gamma55[i0*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][3]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][3]);
-                            for(int gi1=0; gi1<3; ++gi1) {
-                                corr_cmbarcp_gammai5[i0*n_rndvec_c+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][gi1]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][3]);
-                                corr_cmbarcp_gamma5i[i0*n_rndvec_c+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][3]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][gi1]);                                     
-                                for(int gi2=0; gi2<3; ++gi2) {
-                                    corr_cmbarcp_gammaii[i0*n_rndvec_c+i1][gi1*3+gi2][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][gi1]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][gi2]);                     
+        for(int i1=0; i1<n_rndvec_c; ++i1) {
+            if(i0==i1) continue;
+
+            for (int inp1 = 0; inp1 < number_of_mom; ++inp1)
+                for (int inp2 = 0; inp2 < number_of_mom; ++inp2) {
+                    for (int i = 0; i < np[inp1]; ++i)
+                        for (int j = 0; j < np[inp2]; ++j) {
+                            corr_cmbarcp_gamma55[i0 * n_rndvec_c + i1][inp1 * number_of_mom + inp2][i * np[inp2] +
+                                                                                                    j] = Contractions_TwoPoint_SiSiSoSo(
+                                    t_sink, &(SinkbarSink_cmbarcp[i0 * n_rndvec_c + i1][inp1][i][3]),
+                                    SourcebarSource_cmbarcp[i0 * n_rndvec_c + i1][inp2][j][3]);
+                            for (int gi1 = 0; gi1 < 3; ++gi1) {
+                                corr_cmbarcp_gammai5[i0 * n_rndvec_c + i1][gi1][inp1 * number_of_mom + inp2][
+                                        i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink,
+                                                                                           &(SinkbarSink_cmbarcp[
+                                                                                                   i0 * n_rndvec_c +
+                                                                                                   i1][inp1][i][gi1]),
+                                                                                           SourcebarSource_cmbarcp[
+                                                                                                   i0 * n_rndvec_c +
+                                                                                                   i1][inp2][j][3]);
+                                corr_cmbarcp_gamma5i[i0 * n_rndvec_c + i1][gi1][inp1 * number_of_mom + inp2][
+                                        i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink,
+                                                                                           &(SinkbarSink_cmbarcp[
+                                                                                                   i0 * n_rndvec_c +
+                                                                                                   i1][inp1][i][3]),
+                                                                                           SourcebarSource_cmbarcp[
+                                                                                                   i0 * n_rndvec_c +
+                                                                                                   i1][inp2][j][gi1]);
+                                for (int gi2 = 0; gi2 < 3; ++gi2) {
+                                    corr_cmbarcp_gammaii[i0 * n_rndvec_c + i1][gi1 * 3 + gi2][inp1 * number_of_mom +
+                                                                                              inp2][i * np[inp2] +
+                                                                                                    j] = Contractions_TwoPoint_SiSiSoSo(
+                                            t_sink, &(SinkbarSink_cmbarcp[i0 * n_rndvec_c + i1][inp1][i][gi1]),
+                                            SourcebarSource_cmbarcp[i0 * n_rndvec_c + i1][inp2][j][gi2]);
                                 }
                             }
                         }
                 }
+        }
     for(int i0=0; i0<n_rndvec_u; ++i0)
-        for(int i1=0; i1<n_rndvec_u; ++i1)
-            for(int inp1=0; inp1<number_of_mom; ++inp1)
-                for(int inp2=0; inp2<number_of_mom; ++inp2) {
-                    for(int i=0; i<np[inp1]; ++i)
-                        for(int j=0; j<np[inp2]; ++j) {
-                            corr_dbaru_gamma55[i0*n_rndvec_u+i1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0*n_rndvec_u+i1][inp1][i][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i1][inp2][j][3]);
+        for(int i1=0; i1<n_rndvec_u; ++i1) {
+            if(i0==i1) continue;
 
-                            for(int gi1=0; gi1<3; ++gi1) {
-                                corr_dbaru_gammai5[i0*n_rndvec_u+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0*n_rndvec_u+i1][inp1][i][gi1]), SourcebarSource_dbaru[i0*n_rndvec_u+i1][inp2][j][3]);
-                                corr_dbaru_gamma5i[i0*n_rndvec_u+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0*n_rndvec_u+i1][inp1][i][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i1][inp2][j][gi1]);
+            for (int inp1 = 0; inp1 < number_of_mom; ++inp1)
+                for (int inp2 = 0; inp2 < number_of_mom; ++inp2) {
+                    for (int i = 0; i < np[inp1]; ++i)
+                        for (int j = 0; j < np[inp2]; ++j) {
+                            corr_dbaru_gamma55[i0 * n_rndvec_u + i1][inp1 * number_of_mom + inp2][i * np[inp2] +
+                                                                                                  j] = Contractions_TwoPoint_SiSiSoSo(
+                                    t_sink, &(SinkbarSink_dbaru[i0 * n_rndvec_u + i1][inp1][i][3]),
+                                    SourcebarSource_dbaru[i0 * n_rndvec_u + i1][inp2][j][3]);
 
-                                for(int gi2=0; gi2<3; ++gi2) {
-                                    corr_dbaru_gammaii[i0*n_rndvec_u+i1][gi1*3+gi2][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0*n_rndvec_u+i1][inp1][i][gi1]), SourcebarSource_dbaru[i0*n_rndvec_u+i1][inp2][j][gi2]);
+                            for (int gi1 = 0; gi1 < 3; ++gi1) {
+                                corr_dbaru_gammai5[i0 * n_rndvec_u + i1][gi1][inp1 * number_of_mom + inp2][
+                                        i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[
+                                        i0 * n_rndvec_u + i1][inp1][i][gi1]), SourcebarSource_dbaru[i0 * n_rndvec_u +
+                                                                                                    i1][inp2][j][3]);
+                                corr_dbaru_gamma5i[i0 * n_rndvec_u + i1][gi1][inp1 * number_of_mom + inp2][
+                                        i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[
+                                                                                                   i0 * n_rndvec_u + i1][inp1][i][3]),
+                                                                                           SourcebarSource_dbaru[
+                                                                                                   i0 * n_rndvec_u +
+                                                                                                   i1][inp2][j][gi1]);
+
+                                for (int gi2 = 0; gi2 < 3; ++gi2) {
+                                    corr_dbaru_gammaii[i0 * n_rndvec_u + i1][gi1 * 3 + gi2][inp1 * number_of_mom +
+                                                                                            inp2][i * np[inp2] +
+                                                                                                  j] = Contractions_TwoPoint_SiSiSoSo(
+                                            t_sink, &(SinkbarSink_dbaru[i0 * n_rndvec_u + i1][inp1][i][gi1]),
+                                            SourcebarSource_dbaru[i0 * n_rndvec_u + i1][inp2][j][gi2]);
                                 }
-                            } 
-                        } 
-                } 
+                            }
+                        }
+                }
+        }
     time = clock() - time;
     printf("\t\t 2pt intermediate correlation function at t=%d success - %.1f seconds \n ", t_sink, ((float) time)/CLOCKS_PER_SEC);
     time = clock();
@@ -1005,6 +1054,8 @@ std::cout<<"end correlator memory allocate"<<std::endl;
 
     for(int i0=0; i0<n_rndvec_c; ++i0)
         for(int i1=0; i1<n_rndvec_c; ++i1) {
+            if(i0==i1) continue;
+
             for(int inp=0; inp<number_of_mom; ++inp)
                 for(int i=0; i<np[inp]; ++i) {
                     for(int gi=0; gi<4; gi++) {
@@ -1020,6 +1071,8 @@ std::cout<<"end correlator memory allocate"<<std::endl;
 
     for(int i0=0; i0<n_rndvec_u; ++i0)
         for(int i1=0; i1<n_rndvec_u; ++i1) {
+            if(i0==i1) continue;
+
             for(int inp=0; inp<number_of_mom; ++inp)
                 for(int i=0; i<np[inp]; ++i) {
                     for(int gi=0; gi<4; gi++) {
@@ -1066,7 +1119,7 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                                 printf("TEST 2\n");
                                 corr_DDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3]);
                                 printf("TEST 3\n");
-                                corr_DDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i][gi]), &(SinkbarSink_dbarcp[i0*n_rndvec_u+i1][inp1][i_m][3]), SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j][3], SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j_m][gi]);
+                                corr_DDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i][gi]), &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i_m][3]), SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j][3], SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j_m][gi]);
                                 printf("TEST 4\n");
                                 corr_JPsiPi_DDstar[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][3], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][gi]);
                                 printf("TEST 5\n");
@@ -1149,8 +1202,8 @@ printf("\t\t test19 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
         for(int gi=0; gi<4; gi++) {
             corr_dbarcp[inp][gi] /= (double)(norm_2pt_1*np[inp]*Lt);
             corr_cmbaru[inp][gi] /= (double)(norm_2pt_1*np[inp]*Lt);
-            corr_cmbarcp[inp][gi] /= (double)(norm_2pt_1*np[inp]*Lt);
-            corr_dbaru[inp][gi] /= (double)(norm_2pt_1*np[inp]*Lt);
+            corr_cmbarcp[inp][gi] /= (double)(norm_2pt_c*np[inp]*Lt);
+            corr_dbaru[inp][gi] /= (double)(norm_2pt_u*np[inp]*Lt);
         }
     }
 printf("\t\t test20 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
