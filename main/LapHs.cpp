@@ -108,9 +108,9 @@ std::cout<<"endl momentum definition"<<std::endl;
     for(int inp=0; inp<number_of_mom; ++inp){
         VdaggerV[inp] = new Eigen::MatrixXcd*[np[inp]];
             for(int i=0; i<np[inp]; ++i){
-                    VdaggerV[inp][i] = new Eigen::MatrixXcd[Lt];
-            for(int t=0; t<Lt; ++t)
-                VdaggerV[inp][i][t] = Eigen::MatrixXcd::Zero(number_of_eigen_vec, number_of_eigen_vec);
+                VdaggerV[inp][i] = new Eigen::MatrixXcd[Lt];
+                for(int t=0; t<Lt; ++t)
+                    VdaggerV[inp][i][t] = Eigen::MatrixXcd::Zero(number_of_eigen_vec, number_of_eigen_vec);
             }
     }
 
@@ -126,31 +126,26 @@ std::cout<<"end VdaggerV memory allocate"<<std::endl;
 
     Eigen::MatrixXcd**** SinkbarSink_dbaru = new Eigen::MatrixXcd***[n_rnd_u];
     Eigen::MatrixXcd***** SourcebarSource_dbaru = new Eigen::MatrixXcd****[n_rnd_u];
-
     for(int rnd=0; rnd<n_rnd; ++rnd) {
         SinkbarSink_dbarcp[rnd] = new Eigen::MatrixXcd**[number_of_mom];
         SourcebarSource_dbarcp[rnd] = new Eigen::MatrixXcd***[number_of_mom];
         SinkbarSink_cmbaru[rnd] = new Eigen::MatrixXcd**[number_of_mom];
         SourcebarSource_cmbaru[rnd] = new Eigen::MatrixXcd***[number_of_mom];
-
         for(int inp=0; inp<number_of_mom; ++inp) {
             SinkbarSink_dbarcp[rnd][inp] = new Eigen::MatrixXcd*[np[inp]];
             SourcebarSource_dbarcp[rnd][inp] = new Eigen::MatrixXcd**[np[inp]];
             SinkbarSink_cmbaru[rnd][inp] = new Eigen::MatrixXcd*[np[inp]];
             SourcebarSource_cmbaru[rnd][inp] = new Eigen::MatrixXcd**[np[inp]];
-
             for(int i=0; i<np[inp]; ++i) {
                 SinkbarSink_dbarcp[rnd][inp][i] = new Eigen::MatrixXcd[4];
                 SourcebarSource_dbarcp[rnd][inp][i] = new Eigen::MatrixXcd*[4];
                 SinkbarSink_cmbaru[rnd][inp][i] = new Eigen::MatrixXcd[4];
                 SourcebarSource_cmbaru[rnd][inp][i] = new Eigen::MatrixXcd*[4];
-       
                 for(int k=0; k<4; ++k) {
                     SinkbarSink_dbarcp[rnd][inp][i][k] = Eigen::MatrixXcd::Zero(dim_block, number_of_inversion);
                     SourcebarSource_dbarcp[rnd][inp][i][k] = new Eigen::MatrixXcd[Lt];
                     SinkbarSink_cmbaru[rnd][inp][i][k] = Eigen::MatrixXcd::Zero(dim_block, number_of_inversion);
                     SourcebarSource_cmbaru[rnd][inp][i][k] = new Eigen::MatrixXcd[Lt];
-
                     for(int t=0; t<Lt; ++t) {
                         SourcebarSource_dbarcp[rnd][inp][i][k][t] = Eigen::MatrixXcd::Zero(dim_block, dim_block);
                         SourcebarSource_cmbaru[rnd][inp][i][k][t] = Eigen::MatrixXcd::Zero(dim_block, dim_block);
@@ -164,19 +159,15 @@ std::cout<<"end VdaggerV memory allocate"<<std::endl;
     for(int rnd=0; rnd<n_rnd_c; ++rnd) {
         SinkbarSink_cmbarcp[rnd] = new Eigen::MatrixXcd**[number_of_mom];
         SourcebarSource_cmbarcp[rnd] = new Eigen::MatrixXcd***[number_of_mom];
-
         for(int inp=0; inp<number_of_mom; ++inp) {
             SinkbarSink_cmbarcp[rnd][inp] = new Eigen::MatrixXcd*[np[inp]];
             SourcebarSource_cmbarcp[rnd][inp] = new Eigen::MatrixXcd**[np[inp]];
-
             for(int i=0; i<np[inp]; ++i) {
                 SinkbarSink_cmbarcp[rnd][inp][i] = new Eigen::MatrixXcd[4];
                 SourcebarSource_cmbarcp[rnd][inp][i] = new Eigen::MatrixXcd*[4];
-
                 for(int k=0; k<4; ++k) {
                     SinkbarSink_cmbarcp[rnd][inp][i][k] = Eigen::MatrixXcd::Zero(dim_block, number_of_inversion);
                     SourcebarSource_cmbarcp[rnd][inp][i][k] = new Eigen::MatrixXcd[Lt];
-
                     for(int t=0; t<Lt; ++t) {
                         SourcebarSource_cmbarcp[rnd][inp][i][k][t] = Eigen::MatrixXcd::Zero(dim_block, dim_block);
 
@@ -189,19 +180,15 @@ std::cout<<"end VdaggerV memory allocate"<<std::endl;
     for(int rnd=0; rnd<n_rnd_u; ++rnd) {
         SinkbarSink_dbaru[rnd] = new Eigen::MatrixXcd**[number_of_mom];
         SourcebarSource_dbaru[rnd] = new Eigen::MatrixXcd***[number_of_mom];
-
         for(int inp=0; inp<number_of_mom; ++inp) {
             SinkbarSink_dbaru[rnd][inp] = new Eigen::MatrixXcd*[np[inp]];
             SourcebarSource_dbaru[rnd][inp] = new Eigen::MatrixXcd**[np[inp]];
-
             for(int i=0; i<np[inp]; ++i) {
                 SinkbarSink_dbaru[rnd][inp][i] = new Eigen::MatrixXcd[4];
                 SourcebarSource_dbaru[rnd][inp][i] = new Eigen::MatrixXcd*[4];
-
                 for(int k=0; k<4; ++k) {
                     SinkbarSink_dbaru[rnd][inp][i][k] = Eigen::MatrixXcd::Zero(dim_block, number_of_inversion);
                     SourcebarSource_dbaru[rnd][inp][i][k] = new Eigen::MatrixXcd[Lt];
-
                     for(int t=0; t<Lt; ++t) {
                         SourcebarSource_dbaru[rnd][inp][i][k][t] = Eigen::MatrixXcd::Zero(dim_block, dim_block);
                     }
@@ -213,8 +200,7 @@ std::cout<<"end VdaggerV memory allocate"<<std::endl;
 
 std::cout<<"end mesonfunctions memory allocate"<<std::endl;
 
-
-//allocate memory for correlation function TP0    
+//allocate memory for correlation function TP0
     Eigen::VectorXcd***** corr_DDstar_DDstar = new Eigen::VectorXcd****[TP0_dim];
     for(int inp1=0; inp1<TP0_dim; ++inp1) {
         corr_DDstar_DDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
@@ -232,246 +218,115 @@ std::cout<<"end mesonfunctions memory allocate"<<std::endl;
     }
 
     Eigen::VectorXcd***** corr_DstarDstar_DstarDstar = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_JPsiPi_JPsiPi = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_EtacRho_EtacRho = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_EtacRho_DstarDstar = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_JPsiPi_DstarDstar = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_EtacRho_JPsiPi = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_JPsiPi_EtacRho = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_DstarDstar_JPsiPi = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_DstarDstar_EtacRho = new Eigen::VectorXcd****[TP0_dim];
     for(int inp1=0; inp1<TP0_dim; ++inp1) {
         corr_DstarDstar_DstarDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_JPsiPi_JPsiPi[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_EtacRho_EtacRho[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_EtacRho_DstarDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_JPsiPi_DstarDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_EtacRho_JPsiPi[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_JPsiPi_EtacRho[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_DstarDstar_JPsiPi[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_DstarDstar_EtacRho[inp1] = new Eigen::VectorXcd***[TP0_dim];
         for(int inp2 =0; inp2<TP0_dim; ++inp2) {
             corr_DstarDstar_DstarDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_JPsiPi_JPsiPi[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_EtacRho_EtacRho[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_EtacRho_DstarDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_JPsiPi_DstarDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_EtacRho_JPsiPi[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_JPsiPi_EtacRho[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_DstarDstar_JPsiPi[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_DstarDstar_EtacRho[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
             for(int i=0; i<np[inp1]*np[inp2]; ++i) {
                 corr_DstarDstar_DstarDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_JPsiPi_JPsiPi[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_EtacRho_EtacRho[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_EtacRho_DstarDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_JPsiPi_DstarDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_EtacRho_JPsiPi[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_JPsiPi_EtacRho[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_DstarDstar_JPsiPi[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_DstarDstar_EtacRho[inp1][inp2][i] = new Eigen::VectorXcd*[3];
                 for(int k=0; k<3; ++k) {
                     corr_DstarDstar_DstarDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[1];
-                    for(int n=0; n<1; ++n)
+                    corr_JPsiPi_JPsiPi[inp1][inp2][i][k] = new Eigen::VectorXcd[1];
+                    corr_EtacRho_EtacRho[inp1][inp2][i][k] = new Eigen::VectorXcd[1];
+                    corr_EtacRho_DstarDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[1];
+                    corr_JPsiPi_DstarDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[1];
+                    corr_EtacRho_JPsiPi[inp1][inp2][i][k] = new Eigen::VectorXcd[1];
+                    corr_JPsiPi_EtacRho[inp1][inp2][i][k] = new Eigen::VectorXcd[1];
+                    corr_DstarDstar_JPsiPi[inp1][inp2][i][k] = new Eigen::VectorXcd[1];
+                    corr_DstarDstar_EtacRho[inp1][inp2][i][k] = new Eigen::VectorXcd[1];
+                    for(int n=0; n<1; ++n) {
                         corr_DstarDstar_DstarDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_JPsiPi_JPsiPi[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_EtacRho_EtacRho[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_EtacRho_DstarDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_JPsiPi_DstarDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_EtacRho_JPsiPi[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_JPsiPi_EtacRho[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_DstarDstar_JPsiPi[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                    }
                 }
             }
         }
     }
-
 
     Eigen::VectorXcd***** corr_DDstar_DstarDstar = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_DstarDstar_DDstar = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_DDstar_JPsiPi = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_DDstar_EtacRho = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_JPsiPi_DDstar = new Eigen::VectorXcd****[TP0_dim];
+    Eigen::VectorXcd***** corr_EtacRho_DDstar = new Eigen::VectorXcd****[TP0_dim];
     for(int inp1=0; inp1<TP0_dim; ++inp1) {
         corr_DDstar_DstarDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_DstarDstar_DDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_DDstar_JPsiPi[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_DDstar_EtacRho[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_JPsiPi_DDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
+        corr_EtacRho_DDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
         for(int inp2 =0; inp2<TP0_dim; ++inp2) {
             corr_DDstar_DstarDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_DstarDstar_DDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_DDstar_JPsiPi[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_DDstar_EtacRho[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_JPsiPi_DDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
+            corr_EtacRho_DDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
             for(int i=0; i<np[inp1]*np[inp2]; ++i) {
                 corr_DDstar_DstarDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_DstarDstar_DDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_DDstar_JPsiPi[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_DDstar_EtacRho[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_JPsiPi_DDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
+                corr_EtacRho_DDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
                 for(int k=0; k<3; ++k) {
                     corr_DDstar_DstarDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                    for(int n=0; n<2; ++n)
-                        corr_DDstar_DstarDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                }
-            }
-        }
-    }
-
-    Eigen::VectorXcd***** corr_DstarDstar_DDstar = new Eigen::VectorXcd****[TP0_dim];
-    for(int inp1=0; inp1<TP0_dim; ++inp1) {
-        corr_DstarDstar_DDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
-        for(int inp2 =0; inp2<TP0_dim; ++inp2) {
-            corr_DstarDstar_DDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-            for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-                corr_DstarDstar_DDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                for(int k=0; k<3; ++k) {
                     corr_DstarDstar_DDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                    for(int n=0; n<2; ++n)
+                    corr_DDstar_JPsiPi[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
+                    corr_DDstar_EtacRho[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
+                    corr_JPsiPi_DDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
+                    corr_EtacRho_DDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
+                    for(int n=0; n<2; ++n) {
+                        corr_DDstar_DstarDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
                         corr_DstarDstar_DDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_DDstar_JPsiPi[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_DDstar_EtacRho[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_JPsiPi_DDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_EtacRho_DDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                    }
                 }
             }
         }
     }
-    
-        Eigen::VectorXcd***** corr_JPsiPi_JPsiPi = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1) {
-            corr_JPsiPi_JPsiPi[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2) {
-                corr_JPsiPi_JPsiPi[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-                    corr_JPsiPi_JPsiPi[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k) {
-                        corr_JPsiPi_JPsiPi[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<1; ++n)
-                            corr_JPsiPi_JPsiPi[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-        Eigen::VectorXcd***** corr_EtacRho_EtacRho = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1) {
-            corr_EtacRho_EtacRho[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2) {
-                corr_EtacRho_EtacRho[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-                    corr_EtacRho_EtacRho[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k) {
-                        corr_EtacRho_EtacRho[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<1; ++n)
-                            corr_EtacRho_EtacRho[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-
-        Eigen::VectorXcd***** corr_DDstar_JPsiPi = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1) {
-            corr_DDstar_JPsiPi[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2) {
-                corr_DDstar_JPsiPi[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-                    corr_DDstar_JPsiPi[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k) {
-                        corr_DDstar_JPsiPi[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<2; ++n)
-                             corr_DDstar_JPsiPi[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-        Eigen::VectorXcd***** corr_DDstar_EtacRho = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1) {
-            corr_DDstar_EtacRho[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2) {
-                corr_DDstar_EtacRho[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-                    corr_DDstar_EtacRho[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k) {
-                        corr_DDstar_EtacRho[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<2; ++n)
-                            corr_DDstar_EtacRho[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-        Eigen::VectorXcd***** corr_DstarDstar_JPsiPi = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1) {
-            corr_DstarDstar_JPsiPi[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2){ 
-                corr_DstarDstar_JPsiPi[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i){
-                    corr_DstarDstar_JPsiPi[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k){
-                        corr_DstarDstar_JPsiPi[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<1; ++n)
-                            corr_DstarDstar_JPsiPi[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-        Eigen::VectorXcd***** corr_DstarDstar_EtacRho = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1) {
-            corr_DstarDstar_EtacRho[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2) {
-                corr_DstarDstar_EtacRho[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-                    corr_DstarDstar_EtacRho[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k) {
-                        corr_DstarDstar_EtacRho[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<1; ++n)
-                            corr_DstarDstar_EtacRho[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-        Eigen::VectorXcd***** corr_JPsiPi_DDstar = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1){
-            corr_JPsiPi_DDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2){
-                corr_JPsiPi_DDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i){
-                    corr_JPsiPi_DDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k){
-                        corr_JPsiPi_DDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<2; ++n)
-                            corr_JPsiPi_DDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-        Eigen::VectorXcd***** corr_JPsiPi_DstarDstar = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1){
-            corr_JPsiPi_DstarDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2){
-                corr_JPsiPi_DstarDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i){
-                    corr_JPsiPi_DstarDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k){
-                        corr_JPsiPi_DstarDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<1; ++n)
-                            corr_JPsiPi_DstarDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-        Eigen::VectorXcd***** corr_JPsiPi_EtacRho = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1){
-            corr_JPsiPi_EtacRho[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2){
-                corr_JPsiPi_EtacRho[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i){
-                    corr_JPsiPi_EtacRho[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k){
-                        corr_JPsiPi_EtacRho[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<1; ++n)
-                            corr_JPsiPi_EtacRho[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-        Eigen::VectorXcd***** corr_EtacRho_DDstar = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1) {
-            corr_EtacRho_DDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2) {
-                corr_EtacRho_DDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-                    corr_EtacRho_DDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k) {
-                        corr_EtacRho_DDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<2; ++n)
-                            corr_EtacRho_DDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-        Eigen::VectorXcd***** corr_EtacRho_DstarDstar = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1) {
-            corr_EtacRho_DstarDstar[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2) {
-                corr_EtacRho_DstarDstar[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-                    corr_EtacRho_DstarDstar[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k) {
-                        corr_EtacRho_DstarDstar[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<1; ++n)
-                            corr_EtacRho_DstarDstar[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
-
-        Eigen::VectorXcd***** corr_EtacRho_JPsiPi = new Eigen::VectorXcd****[TP0_dim];
-        for(int inp1=0; inp1<TP0_dim; ++inp1) {
-            corr_EtacRho_JPsiPi[inp1] = new Eigen::VectorXcd***[TP0_dim];
-            for(int inp2 =0; inp2<TP0_dim; ++inp2) {
-                corr_EtacRho_JPsiPi[inp1][inp2] = new Eigen::VectorXcd**[np[inp1]*np[inp2]];
-                for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-                    corr_EtacRho_JPsiPi[inp1][inp2][i] = new Eigen::VectorXcd*[3];
-                    for(int k=0; k<3; ++k) {
-                        corr_EtacRho_JPsiPi[inp1][inp2][i][k] = new Eigen::VectorXcd[2];
-                        for(int n=0; n<1; ++n)
-                            corr_EtacRho_JPsiPi[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
-                    }
-                }
-            }
-        }
 
     Eigen::VectorXcd** corr_DDstar_DDstar_sum = new Eigen::VectorXcd*[TP0_dim];
     Eigen::VectorXcd** corr_DstarDstar_DstarDstar_sum = new Eigen::VectorXcd*[TP0_dim];
@@ -547,11 +402,11 @@ std::cout<<"end mesonfunctions memory allocate"<<std::endl;
 //define intermediate 2pt functions
     Eigen::VectorXcd**** corr_dbarcp_gammaii = new Eigen::VectorXcd***[n_rnd];    
     Eigen::VectorXcd**** corr_dbarcp_gammai5 = new Eigen::VectorXcd***[n_rnd];    
-    Eigen::VectorXcd**** corr_dbarcp_gamma5i = new Eigen::VectorXcd***[n_rnd];    
+    Eigen::VectorXcd**** corr_dbarcp_gamma5i = new Eigen::VectorXcd***[n_rnd];
     Eigen::VectorXcd*** corr_dbarcp_gamma55 = new Eigen::VectorXcd**[n_rnd];
     Eigen::VectorXcd**** corr_cmbaru_gammaii = new Eigen::VectorXcd***[n_rnd];    
-    Eigen::VectorXcd**** corr_cmbaru_gammai5 = new Eigen::VectorXcd***[n_rnd];    
-    Eigen::VectorXcd**** corr_cmbaru_gamma5i = new Eigen::VectorXcd***[n_rnd];    
+    Eigen::VectorXcd**** corr_cmbaru_gammai5 = new Eigen::VectorXcd***[n_rnd];
+    Eigen::VectorXcd**** corr_cmbaru_gamma5i = new Eigen::VectorXcd***[n_rnd];
     Eigen::VectorXcd*** corr_cmbaru_gamma55 = new Eigen::VectorXcd**[n_rnd];
 
     Eigen::VectorXcd**** corr_cmbarcp_gammaii = new Eigen::VectorXcd***[n_rnd_c];
@@ -573,20 +428,17 @@ std::cout<<"end mesonfunctions memory allocate"<<std::endl;
         corr_cmbaru_gammai5[inr] = new Eigen::VectorXcd**[3];
         corr_cmbaru_gamma5i[inr] = new Eigen::VectorXcd**[3];
         corr_cmbaru_gamma55[inr] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
-
         for(int gi=0; gi<3; ++gi) {
             corr_dbarcp_gammai5[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
             corr_dbarcp_gamma5i[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
             corr_cmbaru_gammai5[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
             corr_cmbaru_gamma5i[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
-
             for(int inp1=0; inp1<number_of_mom; ++inp1)
                 for(int inp2=0; inp2<number_of_mom; ++inp2) {
                     corr_dbarcp_gammai5[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
                     corr_dbarcp_gamma5i[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
                     corr_cmbaru_gammai5[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
                     corr_cmbaru_gamma5i[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
-            
                     for(int i=0; i<np[inp1]*np[inp2]; ++i) {
                         corr_dbarcp_gammai5[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
                         corr_dbarcp_gamma5i[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
@@ -599,12 +451,10 @@ std::cout<<"end mesonfunctions memory allocate"<<std::endl;
         for(int gi=0; gi<9; ++gi) {
             corr_dbarcp_gammaii[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
             corr_cmbaru_gammaii[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
-            
             for(int inp1=0; inp1<number_of_mom; ++inp1)
                 for(int inp2=0; inp2<number_of_mom; ++inp2) {
                     corr_dbarcp_gammaii[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
                     corr_cmbaru_gammaii[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
-                
                     for(int i=0; i<np[inp1]*np[inp2]; ++i) {
                         corr_dbarcp_gammaii[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
                         corr_cmbaru_gammaii[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
@@ -624,26 +474,24 @@ std::cout<<"end mesonfunctions memory allocate"<<std::endl;
     }
    
      for(int inr=0; inr<n_rnd_c; ++inr) {
-            corr_cmbarcp_gammaii[inr] = new Eigen::VectorXcd**[9];
-            corr_cmbarcp_gammai5[inr] = new Eigen::VectorXcd**[3];
-            corr_cmbarcp_gamma5i[inr] = new Eigen::VectorXcd**[3];
-            corr_cmbarcp_gamma55[inr] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
-
-            for(int gi=0; gi<3; ++gi) {
-                corr_cmbarcp_gammai5[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
-                corr_cmbarcp_gamma5i[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
-                for(int inp1=0; inp1<number_of_mom; ++inp1)
-                    for(int inp2=0; inp2<number_of_mom; ++inp2) {
-                        corr_cmbarcp_gammai5[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
-                        corr_cmbarcp_gamma5i[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
-                        for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-                            corr_cmbarcp_gammai5[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
-                            corr_cmbarcp_gamma5i[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
-                        }
-                    }
+         corr_cmbarcp_gammaii[inr] = new Eigen::VectorXcd**[9];
+         corr_cmbarcp_gammai5[inr] = new Eigen::VectorXcd**[3];
+         corr_cmbarcp_gamma5i[inr] = new Eigen::VectorXcd**[3];
+         corr_cmbarcp_gamma55[inr] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
+         for(int gi=0; gi<3; ++gi) {
+             corr_cmbarcp_gammai5[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
+             corr_cmbarcp_gamma5i[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
+             for(int inp1=0; inp1<number_of_mom; ++inp1)
+                 for(int inp2=0; inp2<number_of_mom; ++inp2) {
+                     corr_cmbarcp_gammai5[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
+                     corr_cmbarcp_gamma5i[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
+                     for(int i=0; i<np[inp1]*np[inp2]; ++i) {
+                         corr_cmbarcp_gammai5[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
+                         corr_cmbarcp_gamma5i[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
+                     }
+                 }
             }
-                        
-        for(int gi=0; gi<9; ++gi) {
+         for(int gi=0; gi<9; ++gi) {
             corr_cmbarcp_gammaii[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
             for(int inp1=0; inp1<number_of_mom; ++inp1)
                 for(int inp2=0; inp2<number_of_mom; ++inp2) {
@@ -653,8 +501,7 @@ std::cout<<"end mesonfunctions memory allocate"<<std::endl;
                     }
                 }
         }
-
-        for(int inp1=0; inp1<number_of_mom; ++inp1)
+         for(int inp1=0; inp1<number_of_mom; ++inp1)
             for(int inp2=0; inp2<number_of_mom; ++inp2) {
                 corr_cmbarcp_gamma55[inr][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
                 for(int i=0; i<np[inp1]*np[inp2]; ++i) {
@@ -664,26 +511,24 @@ std::cout<<"end mesonfunctions memory allocate"<<std::endl;
     }
 
      for(int inr=0; inr<n_rnd_u; ++inr) {
-            corr_dbaru_gammaii[inr] = new Eigen::VectorXcd**[9];
-            corr_dbaru_gammai5[inr] = new Eigen::VectorXcd**[3];
-            corr_dbaru_gamma5i[inr] = new Eigen::VectorXcd**[3];
-            corr_dbaru_gamma55[inr] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
-
-            for(int gi=0; gi<3; ++gi) {
-                corr_dbaru_gammai5[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
-                corr_dbaru_gamma5i[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
-                for(int inp1=0; inp1<number_of_mom; ++inp1)
-                    for(int inp2=0; inp2<number_of_mom; ++inp2) {
-			corr_dbaru_gammai5[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
-                        corr_dbaru_gamma5i[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
-                        for(int i=0; i<np[inp1]*np[inp2]; ++i) {
-			    corr_dbaru_gammai5[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
-                            corr_dbaru_gamma5i[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
-                        }
-                    }
+         corr_dbaru_gammaii[inr] = new Eigen::VectorXcd**[9];
+         corr_dbaru_gammai5[inr] = new Eigen::VectorXcd**[3];
+         corr_dbaru_gamma5i[inr] = new Eigen::VectorXcd**[3];
+         corr_dbaru_gamma55[inr] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
+         for(int gi=0; gi<3; ++gi) {
+             corr_dbaru_gammai5[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
+             corr_dbaru_gamma5i[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];
+             for(int inp1=0; inp1<number_of_mom; ++inp1)
+                 for(int inp2=0; inp2<number_of_mom; ++inp2) {
+                     corr_dbaru_gammai5[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
+                     corr_dbaru_gamma5i[inr][gi][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
+                     for(int i=0; i<np[inp1]*np[inp2]; ++i) {
+                         corr_dbaru_gammai5[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
+                         corr_dbaru_gamma5i[inr][gi][inp1*number_of_mom+inp2][i] = Eigen::VectorXcd::Zero(Lt);
+                     }
+                 }
             }
-                        
-        for(int gi=0; gi<9; ++gi) {
+         for(int gi=0; gi<9; ++gi) {
             corr_dbaru_gammaii[inr][gi] = new Eigen::VectorXcd*[number_of_mom*number_of_mom];    
             for(int inp1=0; inp1<number_of_mom; ++inp1)
                 for(int inp2=0; inp2<number_of_mom; ++inp2) {
@@ -693,8 +538,7 @@ std::cout<<"end mesonfunctions memory allocate"<<std::endl;
                     }
                 }
         }
-
-        for(int inp1=0; inp1<number_of_mom; ++inp1)
+         for(int inp1=0; inp1<number_of_mom; ++inp1)
             for(int inp2=0; inp2<number_of_mom; ++inp2) {
                 corr_dbaru_gamma55[inr][inp1*number_of_mom+inp2] = new Eigen::VectorXcd[np[inp1]*np[inp2]];
                 for(int i=0; i<np[inp1]*np[inp2]; ++i) {
@@ -728,13 +572,12 @@ std::cout<<"end correlator memory allocate"<<std::endl;
             norm_2pt_c++;
         }
 
-
     for(int i0=0; i0<n_rndvec_u; ++i0)
-    for(int i1=0; i1<n_rndvec_c; ++i1)
-    for(int i2=0; i2<n_rndvec_c; ++i2)
-    for(int i3=0; i3<n_rndvec_u; ++i3) {
-        if((i0==i3) || (i1==i2))  continue;
-        norm_4pt++;
+        for(int i1=0; i1<n_rndvec_c; ++i1)
+            for(int i2=0; i2<n_rndvec_c; ++i2)
+                for(int i3=0; i3<n_rndvec_u; ++i3) {
+                    if((i0==i3) || (i1==i2))  continue;
+                    norm_4pt++;
     }
 
  int vec_i[3][2] = {{1,2},{2,0},{0,1}};
@@ -755,32 +598,29 @@ std::cout<<"end correlator memory allocate"<<std::endl;
 
 //calculate source mesonfunc
 
-
-    for(int t=0; t<Lt; t++) {
+      for(int t=0; t<Lt; t++) {
         rewr->read_eigenvectors_from_file(config_i, t);
         for(int inp=1; inp<number_of_mom; ++inp)
-        for(int i=0; i<np[inp]/2; ++i) {
-            build_VdaggerV(VdaggerV[inp][i*2][t], &(rewr->V), p[inp][i*2][0], p[inp][i*2][1], p[inp][i*2][2]);
-            VdaggerV[inp][i*2+1][t]=VdaggerV[inp][i*2][t].adjoint();
-        }
+            for(int i=0; i<np[inp]/2; ++i) {
+                build_VdaggerV(VdaggerV[inp][i*2][t], &(rewr->V), p[inp][i*2][0], p[inp][i*2][1], p[inp][i*2][2]);
+                VdaggerV[inp][i*2+1][t]=VdaggerV[inp][i*2][t].adjoint();
+            }
     }
-            
       time = clock() - time;
 //      printf("\t\t build VdaggerV success - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
       time = clock();
-    
 
-    for(int t=0; t<Lt; ++t) {
+      for(int t=0; t<Lt; ++t) {
         for(int i0=0; i0<n_rndvec_u; ++i0)
             for(int i1=0; i1<n_rndvec_c; ++i1) {
                 for(int gi=0; gi<4; ++gi) {
                     MesonFunc_SourcebarSource(t, SourcebarSource_dbarcp[i0*n_rndvec_c+i1][0][0][gi][t], &(rewr->rnd_vec_u[i0]), &(rewr->rnd_vec_c[i1]), gammaindex[gi]);
                     MesonFunc_SourcebarSource(t, SourcebarSource_cmbaru[i1*n_rndvec_u+i0][0][0][gi][t], &(rewr->rnd_vec_c[i1]), &(rewr->rnd_vec_u[i0]), gammaindex[gi]);
                     for(int inp=1; inp<number_of_mom; ++inp)
-                    for(int i=0; i<np[inp]; ++i) {
-                        MesonFunc_SourcebarSource(t, SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp][i][gi][t], &(rewr->rnd_vec_u[i0]), &(rewr->rnd_vec_c[i1]), &(VdaggerV[inp][i][t]), gammaindex[gi]);
-                        MesonFunc_SourcebarSource(t, SourcebarSource_cmbaru[i1*n_rndvec_u+i0][inp][i][gi][t], &(rewr->rnd_vec_c[i1]), &(rewr->rnd_vec_u[i0]), &(VdaggerV[inp][i][t]), gammaindex[gi]);
-                    }
+                        for(int i=0; i<np[inp]; ++i) {
+                            MesonFunc_SourcebarSource(t, SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp][i][gi][t], &(rewr->rnd_vec_u[i0]), &(rewr->rnd_vec_c[i1]), &(VdaggerV[inp][i][t]), gammaindex[gi]);
+                            MesonFunc_SourcebarSource(t, SourcebarSource_cmbaru[i1*n_rndvec_u+i0][inp][i][gi][t], &(rewr->rnd_vec_c[i1]), &(rewr->rnd_vec_u[i0]), &(VdaggerV[inp][i][t]), gammaindex[gi]);
+                        }
                 }
             }
  
@@ -789,9 +629,9 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                 for(int gi=0; gi<4; ++gi) {
                     MesonFunc_SourcebarSource(t, SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][0][0][gi][t], &(rewr->rnd_vec_c[i0]), &(rewr->rnd_vec_c[i1]), gammaindex[gi]);
                     for(int inp=1; inp<number_of_mom; ++inp)
-                    for(int i=0; i<np[inp]; ++i) {
-                        MesonFunc_SourcebarSource(t, SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp][i][gi][t], &(rewr->rnd_vec_c[i0]), &(rewr->rnd_vec_c[i1]), &(VdaggerV[inp][i][t]), gammaindex[gi]);
-                    }
+                        for(int i=0; i<np[inp]; ++i) {
+                            MesonFunc_SourcebarSource(t, SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp][i][gi][t], &(rewr->rnd_vec_c[i0]), &(rewr->rnd_vec_c[i1]), &(VdaggerV[inp][i][t]), gammaindex[gi]);
+                        }
                 }
             }
 
@@ -800,10 +640,10 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                 for(int gi=0; gi<4; ++gi) {
                     MesonFunc_SourcebarSource(t, SourcebarSource_dbaru[i0*n_rndvec_u+i1][0][0][gi][t], &(rewr->rnd_vec_u[i0]), &(rewr->rnd_vec_u[i1]), gammaindex[gi]);
                     for(int inp=1; inp<number_of_mom; ++inp)
-                    for(int i=0; i<np[inp]; ++i) {
-                        MesonFunc_SourcebarSource(t, SourcebarSource_dbaru[i0*n_rndvec_u+i1][inp][i][gi][t], &(rewr->rnd_vec_u[i0]), &(rewr->rnd_vec_u[i1]), &(VdaggerV[inp][i][t]), gammaindex[gi]);     
+                        for(int i=0; i<np[inp]; ++i) {
+                             MesonFunc_SourcebarSource(t, SourcebarSource_dbaru[i0*n_rndvec_u+i1][inp][i][gi][t], &(rewr->rnd_vec_u[i0]), &(rewr->rnd_vec_u[i1]), &(VdaggerV[inp][i][t]), gammaindex[gi]);
 
-                    }
+                         }
                 }
             }
     }
@@ -834,8 +674,7 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                         }
                 }
  
-  
-        for(int i0=0; i0<n_rndvec_u; ++i0)        
+        for(int i0=0; i0<n_rndvec_u; ++i0)
             for(int i1=0; i1<n_rndvec_c; ++i1) 
                 for(int gi=0; gi<4; ++gi) {
                     MesonFunc_SinkbarSink_diag(t_sink, SinkbarSink_cmbaru[i1*n_rndvec_u+i0][0][0][gi], &(rewr->perambulator_c[i1]), &(rewr->perambulator_u[i0]), gammaindex[gi]);
@@ -845,7 +684,6 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                         }
                 }
         
- 
         for(int i0=0; i0<n_rndvec_u; ++i0)
             for(int i1=0; i1<n_rndvec_c; ++i1) {
                 for(int inp=0; inp<number_of_mom; ++inp) {
@@ -865,11 +703,10 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     printf("\t\t calculate sink mesonfunc at t=%d success - %.1f seconds \n ", t_sink, ((float) time)/CLOCKS_PER_SEC);
     time = clock();
 
-
     //start correlation function calculation
 
     //two-point function intermediate
-    
+
     for(int i0=0; i0<n_rndvec_u; ++i0)
         for(int i1=0; i1<n_rndvec_c; ++i1)
             for(int inp1=0; inp1<number_of_mom; ++inp1)
@@ -890,22 +727,16 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     for(int i0=0; i0<n_rndvec_c; ++i0)
         for(int i1=0; i1<n_rndvec_c; ++i1) {
             if(i0==i1) continue;
-
-            for (int inp1 = 0; inp1 < number_of_mom; ++inp1)
-                for (int inp2 = 0; inp2 < number_of_mom; ++inp2) {
-                    for (int i = 0; i < np[inp1]; ++i)
-                        for (int j = 0; j < np[inp2]; ++j) {
-                            corr_cmbarcp_gamma55[i0 * n_rndvec_c + i1][inp1 * number_of_mom + inp2][i * np[inp2] +
-                                                                                                    j] = Contractions_TwoPoint_SiSiSoSo(
-                                    t_sink, &(SinkbarSink_cmbarcp[i0 * n_rndvec_c + i1][inp1][i][3]),
-                                    SourcebarSource_cmbarcp[i0 * n_rndvec_c + i1][inp2][j][3]);
+            for (int inp1=0; inp1<number_of_mom; ++inp1)
+                for (int inp2=0; inp2<number_of_mom; ++inp2) {
+                    for (int i=0; i<np[inp1]; ++i)
+                        for (int j=0; j<np[inp2]; ++j) {
+                            corr_cmbarcp_gamma55[i0*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][3]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][3]);
                             for (int gi1 = 0; gi1 < 3; ++gi1) {
-                                corr_cmbarcp_gammai5[i0 * n_rndvec_c + i1][gi1][inp1 * number_of_mom + inp2][
-                                        i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0 * n_rndvec_c + i1][inp1][i][gi1]), SourcebarSource_cmbarcp[i0 * n_rndvec_c + i1][inp2][j][3]);
-                                corr_cmbarcp_gamma5i[i0 * n_rndvec_c + i1][gi1][inp1 * number_of_mom + inp2][
-                                        i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0 * n_rndvec_c + i1][inp1][i][3]), SourcebarSource_cmbarcp[i0 * n_rndvec_c + i1][inp2][j][gi1]);
-                                for (int gi2 = 0; gi2 < 3; ++gi2) {
-                                    corr_cmbarcp_gammaii[i0 * n_rndvec_c + i1][gi1 * 3 + gi2][inp1 * number_of_mom + inp2][i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0 * n_rndvec_c + i1][inp1][i][gi1]), SourcebarSource_cmbarcp[i0 * n_rndvec_c + i1][inp2][j][gi2]);
+                                corr_cmbarcp_gammai5[i0*n_rndvec_c+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][gi1]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][3]);
+                                corr_cmbarcp_gamma5i[i0*n_rndvec_c+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][3]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][gi1]);
+                                for (int gi2=0; gi2<3; ++gi2) {
+                                    corr_cmbarcp_gammaii[i0*n_rndvec_c+i1][gi1*3+gi2][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][gi1]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][gi2]);
                                 }
                             }
                         }
@@ -914,19 +745,16 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     for(int i0=0; i0<n_rndvec_u; ++i0)
         for(int i1=0; i1<n_rndvec_u; ++i1) {
             if(i0==i1) continue;
-
-            for (int inp1 = 0; inp1 < number_of_mom; ++inp1)
-                for (int inp2 = 0; inp2 < number_of_mom; ++inp2) {
-                    for (int i = 0; i < np[inp1]; ++i)
-                        for (int j = 0; j < np[inp2]; ++j) {
-                            corr_dbaru_gamma55[i0 * n_rndvec_u + i1][inp1 * number_of_mom + inp2][i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0 * n_rndvec_u + i1][inp1][i][3]), SourcebarSource_dbaru[i0 * n_rndvec_u + i1][inp2][j][3]);
-
-                            for (int gi1 = 0; gi1 < 3; ++gi1) {
-                                corr_dbaru_gammai5[i0 * n_rndvec_u + i1][gi1][inp1 * number_of_mom + inp2][i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0 * n_rndvec_u + i1][inp1][i][gi1]), SourcebarSource_dbaru[i0 * n_rndvec_u + i1][inp2][j][3]);
-                                corr_dbaru_gamma5i[i0 * n_rndvec_u + i1][gi1][inp1 * number_of_mom + inp2][i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0 * n_rndvec_u + i1][inp1][i][3]), SourcebarSource_dbaru[i0 * n_rndvec_u + i1][inp2][j][gi1]);
-
-                                for (int gi2 = 0; gi2 < 3; ++gi2) {
-                                    corr_dbaru_gammaii[i0 * n_rndvec_u + i1][gi1 * 3 + gi2][inp1 * number_of_mom + inp2][i * np[inp2] + j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0 * n_rndvec_u + i1][inp1][i][gi1]), SourcebarSource_dbaru[i0 * n_rndvec_u + i1][inp2][j][gi2]);
+            for (int inp1=0;inp1<number_of_mom; ++inp1)
+                for (int inp2=0; inp2<number_of_mom; ++inp2) {
+                    for (int i=0; i<np[inp1]; ++i)
+                        for (int j=0; j<np[inp2]; ++j) {
+                            corr_dbaru_gamma55[i0*n_rndvec_u+i1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0*n_rndvec_u+i1][inp1][i][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i1][inp2][j][3]);
+                            for (int gi1=0; gi1<3; ++gi1) {
+                                corr_dbaru_gammai5[i0*n_rndvec_u+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0*n_rndvec_u+i1][inp1][i][gi1]), SourcebarSource_dbaru[i0*n_rndvec_u+i1][inp2][j][3]);
+                                corr_dbaru_gamma5i[i0*n_rndvec_u+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0*n_rndvec_u+i1][inp1][i][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i1][inp2][j][gi1]);
+                                for (int gi2 =0; gi2<3; ++gi2) {
+                                    corr_dbaru_gammaii[i0*n_rndvec_u+i1][gi1*3+gi2][inp1*number_of_mom+ np2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_dbaru[i0*n_rndvec_u+i1][inp1][i][gi1]), SourcebarSource_dbaru[i0*n_rndvec_u+i1][inp2][j][gi2]);
                                 }
                             }
                         }
@@ -993,7 +821,7 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                                 j_m=j;
                             else
                                 j_m = (j%2==0)?(j+1):(j-1);
-                            corr_dbarcp_gamma55[i0*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j] = corr_cmbaru_gamma55[i1*n_rndvec_u+i0][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m].conjugate(); 
+                            corr_dbarcp_gamma55[i0*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j] = corr_cmbaru_gamma55[i1*n_rndvec_u+i0][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m].conjugate();
                         }
                     }
                 }
@@ -1024,7 +852,6 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     for(int i0=0; i0<n_rndvec_c; ++i0)
         for(int i1=0; i1<n_rndvec_c; ++i1) {
             if(i0==i1) continue;
-
             for(int inp=0; inp<number_of_mom; ++inp)
                 for(int i=0; i<np[inp]; ++i) {
                     for(int gi=0; gi<4; gi++) {
@@ -1041,7 +868,6 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     for(int i0=0; i0<n_rndvec_u; ++i0)
         for(int i1=0; i1<n_rndvec_u; ++i1) {
             if(i0==i1) continue;
-
             for(int inp=0; inp<number_of_mom; ++inp)
                 for(int i=0; i<np[inp]; ++i) {
                     for(int gi=0; gi<4; gi++) {
@@ -1083,69 +909,45 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                                 j_m = (j%2==0)?(j+1):(j-1);
                             for(int gi=0; gi<3; ++gi) {
                                 corr_DDstar_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi]);
-                                printf("TEST 1\n");
                                 corr_DDstar_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i][gi]), &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i_m][3]), SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j][gi], SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j_m][3]);
-                                printf("TEST 2\n");
                                 corr_DDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3]);
-                                printf("TEST 3\n");
                                 corr_DDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i][gi]), &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i_m][3]), SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j][3], SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j_m][gi]);
-                                printf("TEST 4\n");
                                 corr_JPsiPi_DDstar[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][3], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][gi]);
-                                printf("TEST 5\n");
                                 corr_JPsiPi_DDstar[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][3]);
-                                printf("TEST 6\n");
                                 corr_EtacRho_DDstar[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][3], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][gi]);
-                                printf("TEST 7\n");
                                 corr_EtacRho_DDstar[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][3]);
-                                printf("TEST 8\n");
                                 corr_DstarDstar_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0] -= ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][0]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][1]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi])
-                                                                                            -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][1]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][0]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi]));
-                                printf("TEST 9\n");
+                                                                                                 -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][1]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][0]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi]));
                                 corr_DstarDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0] -= ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][0]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][1]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3])
-                                                                                            -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][1]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][0]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3]));
-                                printf("TEST 10\n");
+                                                                                                 -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][1]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][0]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3]));
                                 corr_JPsiPi_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0] += ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][0]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][1]])
-                                                                                            -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][1]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][0]]));
+                                                                                                -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][1]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][0]]));
 
                                 corr_EtacRho_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0] += ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][0]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][1]])
-                                                                                            -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][1]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][0]]));
-                                printf("TEST 11\n");
-                                for(int ti=0; ti<Lt; ++ti)
-                                {
+                                                                                                -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][1]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][0]]));
+                             //   for(int ti=0; ti<Lt; ++ti)
+                                for(int ti=0; ti<2; ++ti) {
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma55[i2*n_rndvec_u+i3][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
-                                    printf("TEST IN 1\n");
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) -= corr_dbarcp_gammai5[i0*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti);
-                                    printf("TEST IN 2\n");
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][2](ti) -= corr_dbarcp_gamma55[i0*n_rndvec_c+i1][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti);
-                                    printf("TEST IN 3\n");
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][3](ti) -= corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti);
-                                    printf("TEST IN 4\n");
                                     corr_DstarDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) += (corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
-                                                                                                    + corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
-                                                                                                    - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
-                                                                                                    - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
+                                                                                                        + corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
+                                                                                                        - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
+                                                                                                        - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
 
-                                    printf("TEST IN 5\n");
-                                    corr_DDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) += ii*(corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti) 
-                                                                                                - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
-                                    printf("TEST IN 6\n");
+                                     corr_DDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) += ii*(corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
+                                                                                                         - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
                                     corr_DDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) += ii*(corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)
-                                                                                                - corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti));
-                                    printf("TEST IN 7\n");
-                                    corr_DstarDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= ii*(corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti) 
-                                                                                                - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
-                                    printf("TEST IN 8\n");
+                                                                                                        - corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti));
+                                    corr_DstarDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= ii*(corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
+                                                                                                        - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
                                     corr_DstarDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) -= ii*(corr_dbarcp_gammai5[i0*n_rndvec_c+i1][vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)
-                                                                                                - corr_dbarcp_gammai5[i0*n_rndvec_c+i1][vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti));
-                                    printf("TEST IN 9\n");
+                                                                                                         - corr_dbarcp_gammai5[i0*n_rndvec_c+i1][vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti));
                                     corr_JPsiPi_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gammaii[i2*n_rndvec_c+i1][gi*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gamma55[i0*n_rndvec_u+i3][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
-                                    printf("TEST IN 10\n");
                                     corr_EtacRho_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gamma55[i2*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gammaii[i0*n_rndvec_u+i3][gi*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
-                                    printf("TEST IN 11\n");
                                     corr_JPsiPi_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gammai5[i2*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gamma5i[i0*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
-                                    printf("TEST IN 12\n");
                                     corr_EtacRho_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gamma5i[i2*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gammai5[i0*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
-                                    printf("TEST IN 13\n");
                                 }
                             }
                         }
@@ -1165,7 +967,7 @@ printf("\t\t test1 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
     time = clock();
 
     }//t_sink loop ends here
-printf("\t\t test19 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
+printf("\t\t test2 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
 //normalization
     for(int inp=0; inp<number_of_mom; ++inp) {
         for(int gi=0; gi<4; gi++) {
@@ -1175,7 +977,7 @@ printf("\t\t test19 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
             corr_dbaru[inp][gi] /= (double)(norm_2pt_u*np[inp]*Lt);
         }
     }
-printf("\t\t test20 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
+printf("\t\t test3 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
     for(int inp1=0; inp1<TP0_dim; ++inp1)
         for(int inp2=0; inp2<TP0_dim; ++inp2)
             for(int i=0; i<np[inp1]*np[inp2]; ++i)
@@ -1599,7 +1401,6 @@ std::cout<<"start average"<<std::endl;
             
 } // configuration loop ends here.
 
-
 delete[] SourcebarSource_dbarcp;
 delete[] SinkbarSink_dbarcp;
 delete[] SourcebarSource_cmbaru;
@@ -1610,7 +1411,6 @@ delete[] SourcebarSource_dbaru;
 delete[] SinkbarSink_dbaru;
    time = clock() - time_start;
    printf("\t\t calculate correlation functions success - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
-
 
     return 0;
 }

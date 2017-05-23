@@ -1,17 +1,17 @@
 #!/bin/bash
 
 #PBS -N contrac_conf.202
-#PBS -l walltime=48:00:00,mem=50gb
+#PBS -l walltime=58:00:00,mem=45gb
 #PBS -l nodes=1:ppn=4
 #PBS -j oe
-run_dir="/hiskp2/tingchen/DDscattering/DDcode/coupled_4channel/submit"
+run_dir="/hiskp2/tingchen/DDscattering/DDcode/coupled_4channel_code/submit"
 out="$run_dir/out202"
 
 echo "job starts at" `date` > $out
 export OMP_NUM_THREADS=1
 cat $PBS_NODEFILE >> $out
 
-contrac_dir="/hiskp2/tingchen/DDscattering/DDcode/coupled_4channel/main"
+contrac_dir="/hiskp2/tingchen/DDscattering/DDcode/coupled_4channel_code/main"
 data_dir="/hiskp2/tingchen/DDscattering/data/A40.32/charm_225_4channels"
 
 if [ ! -d $data_dir/sum ]; then

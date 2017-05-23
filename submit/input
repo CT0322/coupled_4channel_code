@@ -24,6 +24,6 @@ path_perambulators_u = /hiskp2/perambulators/A40.32_second-run_sorted/light
 path_output = /hiskp2/tingchen/DDscattering/data/A40.32/charm_225_4channels
 
 [quarks]
-quark = c:4:TB:32:EI:4:DI:4
-quark = u:7:TB:32:EI:4:DI:4
+quark = c:2:TB:32:EI:4:DI:4
+quark = u:2:TB:32:EI:4:DI:4
 
