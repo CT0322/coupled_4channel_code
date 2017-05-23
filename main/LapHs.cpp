@@ -652,7 +652,8 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     time = clock();
 
 // start calculate Sinkbar Sink mesonfunction 
-    for(int t_sink=0; t_sink<Lt; ++t_sink) {
+    //for(int t_sink=0; t_sink<Lt; ++t_sink) {
+      for(int t_sink=0; t_sink<1; ++t_sink) {
 
         for(int i0=0; i0<n_rndvec_c; ++i0)        
             for(int i1=0; i1<n_rndvec_c; ++i1)  
@@ -886,7 +887,7 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     time = clock();
 
     //four point functions
-    int k1, k2, k1m, k2m, k1i, k2i, k1mi, k2mi;
+    //int k1, k2, k1m, k2m, k1i, k2i, k1mi, k2mi;
     for(int i0=0; i0<n_rndvec_u; ++i0)
     for(int i1=0; i1<n_rndvec_c; ++i1)
     for(int i2=0; i2<n_rndvec_c; ++i2)
