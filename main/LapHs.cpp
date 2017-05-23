@@ -63,7 +63,7 @@ int main (int ac, char* av[]) {
 
 /**************** momentum ********************/
 
-    int norm=0;
+    //int norm=0;
 
 std::cout<<"start momentum difinition"<<std::endl;
     const int number_of_mom=5;
