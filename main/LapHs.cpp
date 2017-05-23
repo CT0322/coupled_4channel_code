@@ -926,6 +926,7 @@ std::cout<<"end correlator memory allocate"<<std::endl;
 
                                 corr_EtacRho_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0] += ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][0]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][1]])
                                                                                                 -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][1]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][0]]));
+                                printf("\t\t 4pt test1 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                                for(int ti=0; ti<Lt; ++ti){
                                // for(int ti=0; ti<2; ++ti) {
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma55[i2*n_rndvec_u+i3][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
@@ -949,7 +950,9 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                                     corr_EtacRho_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gamma55[i2*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gammaii[i0*n_rndvec_u+i3][gi*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
                                     corr_JPsiPi_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gammai5[i2*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gamma5i[i0*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
                                     corr_EtacRho_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gamma5i[i2*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gammai5[i0*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
+                                   printf("\t\t 4pt test1 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                                 }
+                                printf("\t\t 4pt test2 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                             }
                         }
                     }
