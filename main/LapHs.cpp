@@ -275,6 +275,7 @@ std::cout<<"end mesonfunctions memory allocate"<<std::endl;
                         corr_EtacRho_JPsiPi[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
                         corr_JPsiPi_EtacRho[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
                         corr_DstarDstar_JPsiPi[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
+                        corr_DstarDstar_EtacRho[inp1][inp2][i][k][n] = Eigen::VectorXcd::Zero(Lt);
                     }
                 }
             }
@@ -607,7 +608,7 @@ std::cout<<"end correlator memory allocate"<<std::endl;
             }
     }
       time = clock() - time;
-//      printf("\t\t build VdaggerV success - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
+      printf("\t\t build VdaggerV success - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
       time = clock();
 
       for(int t=0; t<Lt; ++t) {
@@ -661,7 +662,7 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                     MesonFunc_SinkbarSink_diag(t_sink, SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][0][0][gi], &(rewr->perambulator_c[i0]), &(rewr->perambulator_c[i1]), gammaindex[gi]);
                     for(int inp=1; inp<number_of_mom; ++inp)
                         for(int i=0; i<np[inp]; ++i) {
-                            MesonFunc_SinkbarSink_diag(t_sink, SinkbarSink_cmbaru[i0*n_rndvec_c+i1][inp][i][gi], &(rewr->perambulator_c[i0]), &(rewr->perambulator_c[i1]), &(VdaggerV[inp][i][t_sink]), gammaindex[gi]);
+                            MesonFunc_SinkbarSink_diag(t_sink, SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp][i][gi], &(rewr->perambulator_c[i0]), &(rewr->perambulator_c[i1]), &(VdaggerV[inp][i][t_sink]), gammaindex[gi]);
                         }
                 }
      
@@ -707,7 +708,6 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     //start correlation function calculation
 
     //two-point function intermediate
-
     for(int i0=0; i0<n_rndvec_u; ++i0)
         for(int i1=0; i1<n_rndvec_c; ++i1)
             for(int inp1=0; inp1<number_of_mom; ++inp1)
@@ -733,7 +733,7 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                     for (int i=0; i<np[inp1]; ++i)
                         for (int j=0; j<np[inp2]; ++j) {
                             corr_cmbarcp_gamma55[i0*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][3]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][3]);
-                            for (int gi1 = 0; gi1 < 3; ++gi1) {
+                            for (int gi1=0; gi1<3; ++gi1) {
                                 corr_cmbarcp_gammai5[i0*n_rndvec_c+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][gi1]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][3]);
                                 corr_cmbarcp_gamma5i[i0*n_rndvec_c+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = Contractions_TwoPoint_SiSiSoSo(t_sink, &(SinkbarSink_cmbarcp[i0*n_rndvec_c+i1][inp1][i][3]), SourcebarSource_cmbarcp[i0*n_rndvec_c+i1][inp2][j][gi1]);
                                 for (int gi2=0; gi2<3; ++gi2) {
@@ -765,72 +765,35 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     printf("\t\t 2pt intermediate correlation function at t=%d success - %.1f seconds \n ", t_sink, ((float) time)/CLOCKS_PER_SEC);
     time = clock();
 
-    for(int i0=0; i0<n_rndvec_u; ++i0)
-        for(int i1=0; i1<n_rndvec_c; ++i1)
-            for(int gi=0; gi<3; ++gi) {
-                for(int inp1=0; inp1<number_of_mom; ++inp1)
-                    for(int inp2=0; inp2<number_of_mom; ++inp2) {
-                        for(int i=0; i<np[inp1]; ++i) {
-                            if(np[inp1] == 1)
-                                i_m = i;
-                            else
-                                i_m = (i%2==0)?(i+1):(i-1);
-                            for(int j=0; j<np[inp2]; ++j) {
-                                if(np[inp2] == 1)
-                                    j_m=j;
-                                else
-                                    j_m = (j%2==0)?(j+1):(j-1);
-                                corr_dbarcp_gammai5[i0*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j] = corr_cmbaru_gammai5[i1*n_rndvec_u+i0][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m].conjugate(); 
-                                corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j] = corr_cmbaru_gamma5i[i1*n_rndvec_u+i0][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m].conjugate(); 
-                            }
-                        }
-                    }
-            }
-
-    for(int i0=0; i0<n_rndvec_u; ++i0)
-        for(int i1=0; i1<n_rndvec_c; ++i1)
-            for(int gi=0; gi<9; ++gi) {
-                for(int inp1=0; inp1<number_of_mom; ++inp1)
-                    for(int inp2=0; inp2<number_of_mom; ++inp2) {
-                        for(int i=0; i<np[inp1]; ++i) {
-                            if(np[inp1] == 1)
-                                i_m = i;
-                            else
+          for(int i0=0; i0<n_rndvec_u; ++i0)
+              for(int i1=0; i1<n_rndvec_c; ++i1)
+                  for(int inp1=0; inp1<number_of_mom; ++inp1)
+                      for(int inp2=0; inp2<number_of_mom; ++inp2) {
+                          for(int i=0; i<np[inp1]; ++i){
+                              if(np[inp1] == 1)
+                                  i_m = i;
+                              else
                                   i_m = (i%2==0)?(i+1):(i-1);
-                            for(int j=0; j<np[inp2]; ++j) {
-                                if(np[inp2] == 1)
-                                    j_m=j;
-                                else
-                                    j_m = (j%2==0)?(j+1):(j-1);
-                                corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j] = corr_cmbaru_gammaii[i1*n_rndvec_u+i0][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m].conjugate(); 
-                            }
-                        }
-                    }
-            }
+                              for(int j=0; j<np[inp2]; ++j) {
+                                  if(np[inp2] == 1)
+                                      j_m=j;
+                                  else
+                                      j_m = (j%2==0)?(j+1):(j-1);
+                                  corr_dbarcp_gamma55[i0*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j] = corr_cmbaru_gamma55[i1*n_rndvec_u+i0][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m].conjugate();
+                                  for(int gi1=0; gi1<3; ++gi1) {
+                                      corr_dbarcp_gammai5[i0*n_rndvec_c+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = corr_cmbaru_gammai5[i1*n_rndvec_u+i0][gi1][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m].conjugate();
+                                      corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][gi1][inp1*number_of_mom+inp2][i*np[inp2]+j] = corr_cmbaru_gamma5i[i1*n_rndvec_u+i0][gi1][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m].conjugate();
+                                     for(int gi2=0;gi2<3;++gi2) {
+                                         corr_dbarcp_gammaii[i0*n_rndvec_c+i1][3*gi1+gi2][inp1*number_of_mom+inp2][i*np[inp2]+j] = corr_cmbaru_gammaii[i1*n_rndvec_u+i0][3*gi1+gi2][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m].conjugate();
+                                     }
+                                  }
+                              }
+                          }
+                      }
 
-    for(int i0=0; i0<n_rndvec_u; ++i0)
-        for(int i1=0; i1<n_rndvec_c; ++i1)
-            for(int inp1=0; inp1<number_of_mom; ++inp1)
-                for(int inp2=0; inp2<number_of_mom; ++inp2) {
-                    for(int i=0; i<np[inp1]; ++i){
-                        if(np[inp1] == 1)
-                            i_m = i;
-                        else
-                             i_m = (i%2==0)?(i+1):(i-1);
-                        for(int j=0; j<np[inp2]; ++j) {
-                            if(np[inp2] == 1)
-                                j_m=j;
-                            else
-                                j_m = (j%2==0)?(j+1):(j-1);
-                            corr_dbarcp_gamma55[i0*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j] = corr_cmbaru_gamma55[i1*n_rndvec_u+i0][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m].conjugate();
-                        }
-                    }
-                }
-        
     time = clock() - time;
     printf("\t\t 2pt intermediate correlation function at t=%d success - %.1f seconds \n ", t_sink, ((float) time)/CLOCKS_PER_SEC);
     time = clock();
-
 
     //two-point functions
     for(int i0=0; i0<n_rndvec_u; ++i0)
@@ -894,7 +857,6 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     for(int i3=0; i3<n_rndvec_u; ++i3)
     {
         if((i0==i3) || (i1==i2)) continue;
-
     //---------------TP0------------------
             for(int inp1=0; inp1<TP0_dim; ++inp1)
                 for(int inp2=0; inp2<TP0_dim; ++inp2) {
@@ -911,48 +873,57 @@ std::cout<<"end correlator memory allocate"<<std::endl;
                             for(int gi=0; gi<3; ++gi) {
                                 corr_DDstar_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi]);
                                 corr_DDstar_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i][gi]), &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i_m][3]), SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j][gi], SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j_m][3]);
+
                                 corr_DDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3]);
                                 corr_DDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i][gi]), &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i_m][3]), SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j][3], SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j_m][gi]);
+
                                 corr_JPsiPi_DDstar[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][3], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][gi]);
                                 corr_JPsiPi_DDstar[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][3]);
-                                corr_EtacRho_DDstar[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][3], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][gi]);
-                                corr_EtacRho_DDstar[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][3]);
+
+                                corr_EtacRho_DDstar[inp1][inp2][i*np[inp2]+j][gi][0] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][3], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][gi]);
+                                corr_EtacRho_DDstar[inp1][inp2][i*np[inp2]+j][gi][1] -= Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][3]);
+
                                 corr_DstarDstar_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0] -= ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][0]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][1]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi])
                                                                                                  -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][1]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][0]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][3], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][gi]));
+
                                 corr_DstarDstar_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0] -= ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][0]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][1]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3])
                                                                                                  -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_dbarcp[i0*n_rndvec_c+i1][inp1][i][vec_i[gi][1]]), &(SinkbarSink_cmbaru[i2*n_rndvec_u+i3][inp1][i_m][vec_i[gi][0]]), SourcebarSource_dbaru[i0*n_rndvec_u+i3][inp2][j][gi], SourcebarSource_cmbarcp[i2*n_rndvec_c+i1][inp2][j_m][3]));
+
                                 corr_JPsiPi_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0] += ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][0]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][1]])
                                                                                                 -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][gi]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][3]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][1]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][0]]));
 
                                 corr_EtacRho_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0] += ii*(Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][0]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][1]])
                                                                                                 -Contractions_FourPoint_SiSiSiSi_SoSoSoSo_con(t_sink, &(SinkbarSink_cmbarcp[i2*n_rndvec_c+i1][inp1][i][3]), &(SinkbarSink_dbaru[i0*n_rndvec_u+i3][inp1][i_m][gi]), SourcebarSource_cmbaru[i2*n_rndvec_u+i3][inp2][j][vec_i[gi][1]], SourcebarSource_dbarcp[i0*n_rndvec_c+i1][inp2][j_m][vec_i[gi][0]]));
-                                printf("\t\t 4pt test1 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                                for(int ti=0; ti<Lt; ++ti){
                                // for(int ti=0; ti<2; ++ti) {
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma55[i2*n_rndvec_u+i3][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) -= corr_dbarcp_gammai5[i0*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti);
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][2](ti) -= corr_dbarcp_gamma55[i0*n_rndvec_c+i1][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti);
                                     corr_DDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][3](ti) -= corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti);
+
                                     corr_DstarDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) += (corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
                                                                                                         + corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
                                                                                                         - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
                                                                                                         - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
 
-                                     corr_DDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) += ii*(corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
+                                    corr_DDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) += ii*(corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
                                                                                                          - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][gi*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gamma5i[i2*n_rndvec_u+i3][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
                                     corr_DDstar_DstarDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) += ii*(corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)
                                                                                                         - corr_dbarcp_gamma5i[i0*n_rndvec_c+i1][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][gi*3+vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti));
+
                                     corr_DstarDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= ii*(corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][0]*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][vec_i[gi][1]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti)
                                                                                                         - corr_dbarcp_gammaii[i0*n_rndvec_c+i1][vec_i[gi][1]*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_cmbaru_gammai5[i2*n_rndvec_u+i3][vec_i[gi][0]][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti));
                                     corr_DstarDstar_DDstar[inp1][inp2][i*np[inp2]+j][gi][1](ti) -= ii*(corr_dbarcp_gammai5[i0*n_rndvec_c+i1][vec_i[gi][0]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][1]*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti)
                                                                                                          - corr_dbarcp_gammai5[i0*n_rndvec_c+i1][vec_i[gi][1]][inp1*number_of_mom+inp2][i*np[inp2]+j_m](ti)*corr_cmbaru_gammaii[i2*n_rndvec_u+i3][vec_i[gi][0]*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j](ti));
+
                                     corr_JPsiPi_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gammaii[i2*n_rndvec_c+i1][gi*3+gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gamma55[i0*n_rndvec_u+i3][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
+
                                     corr_EtacRho_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gamma55[i2*n_rndvec_c+i1][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gammaii[i0*n_rndvec_u+i3][gi*3+gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
+
                                     corr_JPsiPi_EtacRho[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gammai5[i2*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gamma5i[i0*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
+
                                     corr_EtacRho_JPsiPi[inp1][inp2][i*np[inp2]+j][gi][0](ti) -= corr_cmbarcp_gamma5i[i2*n_rndvec_c+i1][gi][inp1*number_of_mom+inp2][i*np[inp2]+j](ti)*corr_dbaru_gammai5[i0*n_rndvec_u+i3][gi][inp1*number_of_mom+inp2][i_m*np[inp2]+j_m](ti);
-                                   printf("\t\t 4pt test1 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                                 }
-                                printf("\t\t 4pt test2 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                             }
                         }
                     }
@@ -961,17 +932,17 @@ std::cout<<"end correlator memory allocate"<<std::endl;
     time = clock() - time;
     printf("\t\t 4pt correlation function TP0 at t=%d success - %.1f seconds \n ", t_sink, ((float) time)/CLOCKS_PER_SEC);
     time = clock();
-    printf("i0_value: %d, i1_value:%d, i2_value:%d, i3_value:%d \n", i0, i1, i2, i3);
-    printf("n_rnd_u: %d, n_rnd_c:%d \n", n_rndvec_u, n_rndvec_c);
+   // printf("i0_value: %d, i1_value:%d, i2_value:%d, i3_value:%d \n", i0, i1, i2, i3);
+   // printf("n_rnd_u: %d, n_rnd_c:%d \n", n_rndvec_u, n_rndvec_c);
 
     } // i0, i1, i2, i3 loop ends here
-printf("\t\t test1 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
+//printf("\t\t test4 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
     time = clock() - time;
     printf("\t\t 4pt correlation function at t=%d success - %.1f seconds \n ", t_sink, ((float) time)/CLOCKS_PER_SEC);
     time = clock();
 
     }//t_sink loop ends here
-printf("\t\t test2 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
+
 //normalization
     for(int inp=0; inp<number_of_mom; ++inp) {
         for(int gi=0; gi<4; gi++) {
@@ -981,7 +952,7 @@ printf("\t\t test2 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
             corr_dbaru[inp][gi] /= (double)(norm_2pt_u*np[inp]*Lt);
         }
     }
-printf("\t\t test3 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
+
     for(int inp1=0; inp1<TP0_dim; ++inp1)
         for(int inp2=0; inp2<TP0_dim; ++inp2)
             for(int i=0; i<np[inp1]*np[inp2]; ++i)
@@ -1007,7 +978,6 @@ printf("\t\t test3 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                     corr_JPsiPi_DstarDstar[inp1][inp2][i][gi][0] /= (double)(norm_4pt*Lt);
                     corr_EtacRho_DstarDstar[inp1][inp2][i][gi][0] /= (double)(norm_4pt*Lt);
                 }
-printf("\t\t test21 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
 std::cout<<"normalization finished"<<std::endl;
 
     std::ofstream out;
@@ -1030,7 +1000,7 @@ std::cout<<"normalization finished"<<std::endl;
                     out.close();
                 }
          }
-printf("\t\t test22 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
+
         for(int inp1=0; inp1<TP0_dim; ++inp1)
              for(int inp2=0; inp2<TP0_dim; ++inp2) {
                 for(int gi=0; gi<3; ++gi)
@@ -1050,7 +1020,6 @@ printf("\t\t test22 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                         out.close();
                     }
              }
-printf("\t\t test23 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
 
         for(int inp1=0; inp1<TP0_dim; ++inp1)
          for(int inp2=0; inp2<TP0_dim; ++inp2) {
@@ -1071,7 +1040,7 @@ printf("\t\t test23 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                     out.close();
                 }
          }
-printf("\t\t test24 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
+
         for(int inp1=0; inp1<TP0_dim; ++inp1)
          for(int inp2=0; inp2<TP0_dim; ++inp2) {
             for(int gi=0; gi<3; ++gi)
@@ -1092,7 +1061,6 @@ printf("\t\t test24 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                 }
          }
 
-printf("\t\t test25 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
         for(int gi=0; gi<4; gi++)
             for(int inp=0; inp<number_of_mom; ++inp) {
                 sprintf(outfile, "%s/sum/dbarcp_gamma%d_corr_p%d.conf%d.dat", path_output.c_str(), (gi==3)?5:(gi+1), inp, config_i);
@@ -1105,7 +1073,6 @@ printf("\t\t test25 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                 else {std::cout<<"error opening file"<<std::endl; exit(0);}
                 out.close();
             }
-printf("\t\t test26 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
 
         for(int gi=0; gi<4; gi++)
              for(int inp=0; inp<number_of_mom; ++inp) {
@@ -1120,8 +1087,6 @@ printf("\t\t test26 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                 out.close();
              }
 
-printf("\t\t test27 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
-
         for(int gi=0; gi<4; gi++)
             for(int inp=0; inp<number_of_mom; ++inp) {
                 sprintf(outfile, "%s/sum/cmbarcp_gamma%d_corr_p%d.conf%d.dat", path_output.c_str(), (gi==3)?5:(gi+1), inp, config_i);
@@ -1134,7 +1099,6 @@ printf("\t\t test27 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
                 else {std::cout<<"error opening file"<<std::endl; exit(0);}
                 out.close();
             }
-printf("\t\t test28 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
 
         for(int gi=0; gi<4; gi++)
           for(int inp=0; inp<number_of_mom; ++inp) {
@@ -1148,7 +1112,6 @@ printf("\t\t test28 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
             else {std::cout<<"error opening file"<<std::endl; exit(0);}
             out.close();
           }
-printf("\t\t test29 - %.1f seconds \n ", ((float) time)/CLOCKS_PER_SEC);
             
 //do average
 std::cout<<"start average"<<std::endl;
